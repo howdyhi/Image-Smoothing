@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+    var readimage = function () {
+                var imgFile = document.getElementById('myfile');
+                if (imgFile.files && imgFile.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var datauri = event.target.result;
+                        img = document.createElement('img');
+                        img.src = datauri;
+                        var srccanvas = document.getElementById('srccanvas');
+                        var w = img.width;
+                        var h = img.height;
+                        srccanvas.width = w;
+                        srccanvas.height = h;
+                        var srcctx = srccanvas.getContext('2d');
+                        srcctx.drawImage(img, 0, 0);
+                    }
+                    reader.readAsDataURL(imgFile.files[0]);
+                }
+            }    
+    
+    var skin = function () {
+            var srccanvas = document.getElementById('srccanvas');
+            var destcanvas = document.getElementById('destcanvas');
+            //---------------------------
+            var w = srccanvas.width;
+            var h = srccanvas.height;
+            var srcctx = srccanvas.getContext('2d');
+            destcanvas.width = w;
+            destcanvas.height = h;
+            var srcdata = srcctx.getImageData(0, 0, w, h).data;
+            var destctx = destcanvas.getContext('2d');
+            destctx.fillStyle = '#ffffff';
+            destctx.fillRect(0, 0, w, h);
+            destctx.stroke();
+            var destdata = destctx.getImageData(0, 0, w, h);
+            var d = destdata.data;
+            //---------------------------
+            var r, g, b, a, gray;
+            //---------------------------
+            for (var i = 0; i < srcdata.length; i += 4) {
+                r = srcdata[i];
+                g = srcdata[i + 1];
+                b = srcdata[i + 2];
+                a = srcdata[i + 3];
+                var max = ((r > g) ? r : g) > b ? ((r > g) ? r : g) : b;
+                var min = ((r < g) ? r : g) < b ? ((r < g) ? r : g) : b;
+                gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b) {
+                    gray = gray > 128 ? 255 : 0;
+                    d[i] = gray;
+                    d[i + 1] = gray;
+                    d[i + 2] = gray;
+                }
+                else {
+                    d[i] = r;
+                    d[i + 1] = g;
+                    d[i + 2] = b;
+                }
+                d[i + 3] = a;
+            }
+            //----------------------------------
+            destctx.putImageData(destdata, 0, 0);
+        }
+    </script>
+</head>
+<body>
+   <input type='file' id='myfile' onchange="readimage();">
+    <hr>
+    <input type='button' value='skin' onclick="skin();">
+    <br>
+    <canvas id='srccanvas' width='100' height="100" style="border:1px solid #aaaaaa;"></canvas>
+    <canvas id='destcanvas' width='100' height="100" style="border:1px solid #aaaaaa;"></canvas>
+</body>
+</html>
