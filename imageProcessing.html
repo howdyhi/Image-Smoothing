@@ -43,6 +43,9 @@
             //---------------------------
             var r, g, b, a, gray;
             //---------------------------
+            console.log("srcdata.length: "+srcdata.length);
+            //console.log("w: "+w+", h: "+h);
+            var count=0;
             for (var i = 0; i < srcdata.length; i += 4) {
                 r = srcdata[i];
                 g = srcdata[i + 1];
@@ -53,9 +56,50 @@
                 gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
                 if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b) {
                     gray = gray > 128 ? 255 : 0;
+                    var c1=[srcdata[i],srcdata[i+1],srcdata[i+2],srcdata[i+3]];
+                    var c2=[srcdata[i+4],srcdata[i+4+1],srcdata[i+4+2],srcdata[i+4+3]];
+                    var c3=[srcdata[i+4+4],srcdata[i+4+4+1],srcdata[i+4+4+2],srcdata[i+4+4+3]];
+                    var c4=[srcdata[i+w*4],srcdata[i+w*4+1],srcdata[i+w*4+2],srcdata[i+w*4+3]];
+                    var c5=[srcdata[i+w*4+4],srcdata[i+w*4+4+1],srcdata[i+w*4+4+2],srcdata[i+w*4+4+3]];
+                    var c6=[srcdata[i+w*4+4+4],srcdata[i+w*4+4+4+1],srcdata[i+w*4+4+4+2],srcdata[i+w*4+4+4+3]];
+                    var c7=[srcdata[i+w*4*2],srcdata[i+w*4*2+1],srcdata[i+w*4*2+2],srcdata[i+w*4*2+3]];
+                    var c8=[srcdata[i+w*4*2+4],srcdata[i+w*4*2+4+1],srcdata[i+w*4*2+4+2],srcdata[i+w*4*2+4+3]];
+                    var c9=[srcdata[i+w*4*2+4+4],srcdata[i+w*4*2+4+4+1],srcdata[i+w*4*2+4+4+2],srcdata[i+w*4*2+4+4+3]];
+                    var c=[c1,c2,c3,c4,c5,c6,c7,c8,c9];
+
+                    var rSum=0, gSum=0, bSum=0, aSum=0;
+                    for(var k=0; k<9;k++){
+                        for(var m=0;m<4;m++)
+                            {
+                                if(m==0){//R
+                                    rSum+=c[k][m];
+                                    //console.log("r: "+c[i][j]);
+                                }
+                                if(m==1)//G
+                                    gSum+=c[k][m];
+                                if(m==2)//B
+                                    bSum+=c[k][m];
+                                if(m==3)//A
+                                    aSum+=c[k][m];
+                                //count++;
+                            }
+                    }
+                    //console.log("rSum: "+rSum);
+                    //console.log("c: "+c, ",i="+i);
+                    /*gray = gray > 128 ? 255 : 0;
                     d[i] = gray;
                     d[i + 1] = gray;
-                    d[i + 2] = gray;
+                    d[i + 2] = gray;*/
+                    //console.log(d);
+                    
+                    //c5
+                    d[i+w*4+4]=rSum/9;
+                    d[i+w*4+4+1]=gSum/9;
+                    d[i+w*4+4+2]=bSum/9;
+                    d[i+w*4+4+3]=aSum/9;
+                    
+                    count++;
+                    
                 }
                 else {
                     d[i] = r;
@@ -65,6 +109,7 @@
                 d[i + 3] = a;
             }
             //----------------------------------
+        console.log("count: "+count);
             destctx.putImageData(destdata, 0, 0);
         }
     </script>
