@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <script>
+    var smoothing=0;
     var readimage = function () {
                 var imgFile = document.getElementById('myfile');
                 if (imgFile.files && imgFile.files[0]) {
@@ -20,12 +21,14 @@
                         var srcctx = srccanvas.getContext('2d');
                         srcctx.drawImage(img, 0, 0);
                     }
-                    reader.readAsDataURL(imgFile.files[0]);                
+                    reader.readAsDataURL(imgFile.files[0]);
+                    smoothing=0;
                 }
             }    
-    var click=0;
+    
     var srcdata;
     var skin = function () {
+        while(smoothing<8){
             var srccanvas = document.getElementById('srccanvas');
             var destcanvas = document.getElementById('destcanvas');
             //---------------------------
@@ -34,9 +37,9 @@
             var srcctx = srccanvas.getContext('2d');
             destcanvas.width = w;
             destcanvas.height = h;
-            if(click==0)
+            if(smoothing==0)
             /*var */srcdata = srcctx.getImageData(0, 0, w, h).data;
-            click++;
+            smoothing++;
             var destctx = destcanvas.getContext('2d');
             destctx.fillStyle = '#ffffff';
             destctx.fillRect(0, 0, w, h);
@@ -122,6 +125,7 @@
             destctx.putImageData(destdata, 0, 0);
             //srcctx.putImageData(destdata, 0, 0);
             srcdata=d;
+            }
         }
     var wCoe=function(r){//coefficient of w 
         if(r<=2) //0 if c[0]~c[2]
