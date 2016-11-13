@@ -20,7 +20,7 @@
                         var srcctx = srccanvas.getContext('2d');
                         srcctx.drawImage(img, 0, 0);
                     }
-                    reader.readAsDataURL(imgFile.files[0]);
+                    reader.readAsDataURL(imgFile.files[0]);                
                 }
             }    
     
@@ -43,7 +43,7 @@
             //---------------------------
             var r, g, b, a;
             //---------------------------
-            console.log("srcdata.length: "+srcdata.length);
+            //console.log("srcdata.length: "+srcdata.length);
             //console.log("w: "+w+", h: "+h);
             var count=0;
             for (var i = 0; i < srcdata.length; i += 4) {
@@ -116,7 +116,7 @@
                 d[i + 3] = a;
             }
             //----------------------------------
-        console.log("count: "+count);
+        //console.log("count: "+count);
             destctx.putImageData(destdata, 0, 0);
         }
     var wCoe=function(r){//coefficient of w 
