@@ -41,7 +41,7 @@
             var destdata = destctx.getImageData(0, 0, w, h);
             var d = destdata.data;
             //---------------------------
-            var r, g, b, a, gray;
+            var r, g, b, a;
             //---------------------------
             console.log("srcdata.length: "+srcdata.length);
             //console.log("w: "+w+", h: "+h);
@@ -53,9 +53,7 @@
                 a = srcdata[i + 3];
                 var max = ((r > g) ? r : g) > b ? ((r > g) ? r : g) : b;
                 var min = ((r < g) ? r : g) < b ? ((r < g) ? r : g) : b;
-                gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
                 if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b) {
-                    //gray = gray > 128 ? 255 : 0;
                     
                     var c=[];                   
                     for(var r=0;r<9;r++)
@@ -83,10 +81,6 @@
                     }
                     //console.log("rSum: "+rSum);
                     //console.log("c: "+c, ",i="+i);
-                    /*gray = gray > 128 ? 255 : 0;
-                    d[i] = gray;
-                    d[i + 1] = gray;
-                    d[i + 2] = gray;*/
                     //console.log(d);
                     
                     //c5
