@@ -28,7 +28,7 @@
     
     var srcdata;
     var skin = function () {
-        while(smoothing<8){
+        while(smoothing<6){//times of smoothing
             var srccanvas = document.getElementById('srccanvas');
             var destcanvas = document.getElementById('destcanvas');
             var w = srccanvas.width;
@@ -54,7 +54,7 @@
                 a = srcdata[i + 3];
                 var max = ((r > g) ? r : g) > b ? ((r > g) ? r : g) : b;
                 var min = ((r < g) ? r : g) < b ? ((r < g) ? r : g) : b;
-                if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b) {
+                if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b) {//isSkin
                     
                     var c=[];                   
                     for(var r=0;r<9;r++)//c1~c9 (c[0]~c[8])
@@ -82,7 +82,7 @@
                     }
                     
                     if(c.length==9){ //if each in 3x3 is skin
-                        //duplicate the average into c5 on the dest canvas
+                        //duplicate the average RGB into c5 on the dest canvas
                         d[i+w*4+4]=rSum/9;
                         d[i+w*4+4+1]=gSum/9;
                         d[i+w*4+4+2]=bSum/9;
