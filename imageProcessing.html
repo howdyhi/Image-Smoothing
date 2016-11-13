@@ -56,14 +56,17 @@
                 if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b) {
                     
                     var c=[];                   
-                    for(var r=0;r<9;r++)
+                    for(var r=0;r<9;r++)//c1~c9 (c[0]~c[8])
                         {
-                            var cItem=[srcdata[i+wCoe(r)*w*4+(r%3)*4],srcdata[i+wCoe(r)*w*4+(r%3)*4+1],srcdata[i+wCoe(r)*w*4+(r%3)*4+2],srcdata[i+wCoe(r)*w*4+(r%3)*4+3]];
-                            c.push(cItem);
+                            if(isSkin(srcdata[i+wCoe(r)*w*4+(r%3)*4],srcdata[i+wCoe(r)*w*4+(r%3)*4+1],srcdata[i+wCoe(r)*w*4+(r%3)*4+2])) //each in 3x3 is skin
+                                {
+                                    var cItem=[srcdata[i+wCoe(r)*w*4+(r%3)*4],srcdata[i+wCoe(r)*w*4+(r%3)*4+1],srcdata[i+wCoe(r)*w*4+(r%3)*4+2],srcdata[i+wCoe(r)*w*4+(r%3)*4+3]];
+                                    c.push(cItem);
+                                }
                         }
 
                     var rSum=0, gSum=0, bSum=0, aSum=0;
-                    for(var k=0; k<9;k++){
+                    for(var k=0; k<c.length;k++){
                         for(var m=0;m<4;m++)
                             {
                                 if(m==0){//R
@@ -81,15 +84,22 @@
                     }
                     //console.log("rSum: "+rSum);
                     //console.log("c: "+c, ",i="+i);
+
                     //console.log(d);
+                    //console.log("c.length: "+c.length);
                     
-                    //c5
-                    d[i+w*4+4]=rSum/9;
-                    d[i+w*4+4+1]=gSum/9;
-                    d[i+w*4+4+2]=bSum/9;
-                    d[i+w*4+4+3]=aSum/9;
+                    
+                    
+                    if(c.length==9){ //if each in 3x3 is skin
+                        //c5
+                        d[i+w*4+4]=rSum/9;
+                        d[i+w*4+4+1]=gSum/9;
+                        d[i+w*4+4+2]=bSum/9;
+                        d[i+w*4+4+3]=aSum/9;
+                    }
+                    
                     if(d[i]==255&&d[i+1]==255&&d[i+2]==255)
-                    {
+                    {//fill in original color if c1 is white (on edge)
                         d[i] = srcdata[i];
                         d[i + 1] = srcdata[i+1];
                         d[i + 2] = srcdata[i+2];
@@ -115,6 +125,14 @@
         else if(r<=5)
             return 1;
         else return 2;
+    }
+    
+    var isSkin=function(r,g,b){
+        var max = ((r > g) ? r : g) > b ? ((r > g) ? r : g) : b;
+        var min = ((r < g) ? r : g) < b ? ((r < g) ? r : g) : b;
+        if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b)
+            return true;
+        else return false;
     }
     </script>
 </head>
