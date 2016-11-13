@@ -55,17 +55,14 @@
                 var min = ((r < g) ? r : g) < b ? ((r < g) ? r : g) : b;
                 gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
                 if (r > 95 && g > 40 && b > 20 && (max - min) > 15 && Math.abs(r - g) > 15 && r > g && r > b) {
-                    gray = gray > 128 ? 255 : 0;
-                    var c1=[srcdata[i],srcdata[i+1],srcdata[i+2],srcdata[i+3]];
-                    var c2=[srcdata[i+4],srcdata[i+4+1],srcdata[i+4+2],srcdata[i+4+3]];
-                    var c3=[srcdata[i+4+4],srcdata[i+4+4+1],srcdata[i+4+4+2],srcdata[i+4+4+3]];
-                    var c4=[srcdata[i+w*4],srcdata[i+w*4+1],srcdata[i+w*4+2],srcdata[i+w*4+3]];
-                    var c5=[srcdata[i+w*4+4],srcdata[i+w*4+4+1],srcdata[i+w*4+4+2],srcdata[i+w*4+4+3]];
-                    var c6=[srcdata[i+w*4+4+4],srcdata[i+w*4+4+4+1],srcdata[i+w*4+4+4+2],srcdata[i+w*4+4+4+3]];
-                    var c7=[srcdata[i+w*4*2],srcdata[i+w*4*2+1],srcdata[i+w*4*2+2],srcdata[i+w*4*2+3]];
-                    var c8=[srcdata[i+w*4*2+4],srcdata[i+w*4*2+4+1],srcdata[i+w*4*2+4+2],srcdata[i+w*4*2+4+3]];
-                    var c9=[srcdata[i+w*4*2+4+4],srcdata[i+w*4*2+4+4+1],srcdata[i+w*4*2+4+4+2],srcdata[i+w*4*2+4+4+3]];
-                    var c=[c1,c2,c3,c4,c5,c6,c7,c8,c9];
+                    //gray = gray > 128 ? 255 : 0;
+                    
+                    var c=[];                   
+                    for(var r=0;r<9;r++)
+                        {
+                            var cItem=[srcdata[i+wCoe(r)*w*4+(r%3)*4],srcdata[i+wCoe(r)*w*4+(r%3)*4+1],srcdata[i+wCoe(r)*w*4+(r%3)*4+2],srcdata[i+wCoe(r)*w*4+(r%3)*4+3]];
+                            c.push(cItem);
+                        }
 
                     var rSum=0, gSum=0, bSum=0, aSum=0;
                     for(var k=0; k<9;k++){
@@ -112,6 +109,13 @@
         console.log("count: "+count);
             destctx.putImageData(destdata, 0, 0);
         }
+    var wCoe=function(r){
+        if(r<=2)
+            return 0;
+        else if(r<=5)
+            return 1;
+        else return 2;
+    }
     </script>
 </head>
 <body>
