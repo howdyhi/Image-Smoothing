@@ -94,6 +94,12 @@
                     d[i+w*4+4+1]=gSum/9;
                     d[i+w*4+4+2]=bSum/9;
                     d[i+w*4+4+3]=aSum/9;
+                    if(d[i]==255&&d[i+1]==255&&d[i+2]==255)
+                    {
+                        d[i] = srcdata[i];
+                        d[i + 1] = srcdata[i+1];
+                        d[i + 2] = srcdata[i+2];
+                    }
                     
                     count++;
                     
