@@ -23,7 +23,8 @@
                     reader.readAsDataURL(imgFile.files[0]);                
                 }
             }    
-    
+    var click=0;
+    var srcdata;
     var skin = function () {
             var srccanvas = document.getElementById('srccanvas');
             var destcanvas = document.getElementById('destcanvas');
@@ -33,7 +34,9 @@
             var srcctx = srccanvas.getContext('2d');
             destcanvas.width = w;
             destcanvas.height = h;
-            var srcdata = srcctx.getImageData(0, 0, w, h).data;
+            if(click==0)
+            /*var */srcdata = srcctx.getImageData(0, 0, w, h).data;
+            click++;
             var destctx = destcanvas.getContext('2d');
             destctx.fillStyle = '#ffffff';
             destctx.fillRect(0, 0, w, h);
@@ -105,8 +108,7 @@
                         d[i + 2] = srcdata[i+2];
                     }
                     
-                    count++;
-                    
+
                 }
                 else {
                     d[i] = r;
@@ -118,6 +120,8 @@
             //----------------------------------
         //console.log("count: "+count);
             destctx.putImageData(destdata, 0, 0);
+            //srcctx.putImageData(destdata, 0, 0);
+            srcdata=d;
         }
     var wCoe=function(r){//coefficient of w 
         if(r<=2) //0 if c[0]~c[2]
