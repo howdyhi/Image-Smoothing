@@ -91,7 +91,7 @@
                     
                     
                     if(c.length==9){ //if each in 3x3 is skin
-                        //c5
+                        //duplicate new c5 into the dest canvas
                         d[i+w*4+4]=rSum/9;
                         d[i+w*4+4+1]=gSum/9;
                         d[i+w*4+4+2]=bSum/9;
@@ -119,12 +119,12 @@
         console.log("count: "+count);
             destctx.putImageData(destdata, 0, 0);
         }
-    var wCoe=function(r){
-        if(r<=2)
+    var wCoe=function(r){//coefficient of w 
+        if(r<=2) //0 if c[0]~c[2]
             return 0;
-        else if(r<=5)
+        else if(r<=5) //1 if c[3]~c[5]
             return 1;
-        else return 2;
+        else return 2;//2 if c[6]~c[8]
     }
     
     var isSkin=function(r,g,b){
