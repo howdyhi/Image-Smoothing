@@ -31,7 +31,6 @@
         while(smoothing<8){
             var srccanvas = document.getElementById('srccanvas');
             var destcanvas = document.getElementById('destcanvas');
-            //---------------------------
             var w = srccanvas.width;
             var h = srccanvas.height;
             var srcctx = srccanvas.getContext('2d');
@@ -46,11 +45,7 @@
             destctx.stroke();
             var destdata = destctx.getImageData(0, 0, w, h);
             var d = destdata.data;
-            //---------------------------
             var r, g, b, a;
-            //---------------------------
-            //console.log("srcdata.length: "+srcdata.length);
-            //console.log("w: "+w+", h: "+h);
             var count=0;
             for (var i = 0; i < srcdata.length; i += 4) {
                 r = srcdata[i];
@@ -74,44 +69,32 @@
                     var rSum=0, gSum=0, bSum=0, aSum=0;
                     for(var k=0; k<c.length;k++){
                         for(var m=0;m<4;m++)
-                            {
-                                if(m==0){//R
+                            {   
+                                if(m==0)//R
                                     rSum+=c[k][m];
-                                    //console.log("r: "+c[i][j]);
-                                }
                                 if(m==1)//G
                                     gSum+=c[k][m];
                                 if(m==2)//B
                                     bSum+=c[k][m];
                                 if(m==3)//A
                                     aSum+=c[k][m];
-                                //count++;
                             }
                     }
-                    //console.log("rSum: "+rSum);
-                    //console.log("c: "+c, ",i="+i);
-
-                    //console.log(d);
-                    //console.log("c.length: "+c.length);
-                    
-                    
                     
                     if(c.length==9){ //if each in 3x3 is skin
-                        //duplicate new c5 into the dest canvas
+                        //duplicate the average into c5 on the dest canvas
                         d[i+w*4+4]=rSum/9;
                         d[i+w*4+4+1]=gSum/9;
                         d[i+w*4+4+2]=bSum/9;
                         d[i+w*4+4+3]=aSum/9;
                     }
-                    
+                
                     if(d[i]==255&&d[i+1]==255&&d[i+2]==255)
                     {//fill in original color if c1 is white (on edge)
                         d[i] = srcdata[i];
                         d[i + 1] = srcdata[i+1];
                         d[i + 2] = srcdata[i+2];
                     }
-                    
-
                 }
                 else {
                     d[i] = r;
@@ -121,9 +104,7 @@
                 d[i + 3] = a;
             }
             //----------------------------------
-        //console.log("count: "+count);
             destctx.putImageData(destdata, 0, 0);
-            //srcctx.putImageData(destdata, 0, 0);
             srcdata=d;
             }
         }
